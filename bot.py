@@ -1,4 +1,5 @@
 import telebot
+import os
 from fingerprint import finger
 
 
@@ -28,7 +29,7 @@ def handle_photo(message):
         # اینجا می‌تونید تصویر ذخیره‌شده رو پردازش کنید
         with open(f"res-{file_name}", 'rb') as result:
             bot.send_photo(message.chat.id , result)
-
+        os.remove(f"res-{file_name}")
     except Exception as e:
         bot.reply_to(message, f"مشکلی پیش آمد: {e}")
         print(f"Error: {e}")
