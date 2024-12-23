@@ -9,5 +9,29 @@ bot = telebot.TeleBot(token=token)
 def start(message) :
     bot.reply_to(message , "hi")
     
+@bot.message_handler(content_types=['photo'])
+def handle_photo(message):
+    try:
+        # گرفتن فایل ID از عکس
+        bot.reply_to(message ,f"{message.photo}")
+        file_id = message.photo[-1].file_id  # بزرگترین سایز عکس
+        file_info = bot.get_file(file_id)
+        downloaded_file = bot.download_file(file_info.file_path)
+
+        # ذخیره عکس در سیستم
+        file_name = f"{file_id}.jpg"
+        with open(file_name, 'wb') as new_file:
+            new_file.write(downloaded_file)
+
+        bot.reply_to(message, "عکس شما دریافت و ذخیره شد.")
+        print(f"Photo saved as {file_name}")
+
+        # اینجا می‌تونید تصویر ذخیره‌شده رو پردازش کنید
+
+    except Exception as e:
+        bot.reply_to(message, f"مشکلی پیش آمد: {e}")
+        print(f"Error: {e}")
+
+    
 bot.polling(non_stop=True , timeout=25)
     
