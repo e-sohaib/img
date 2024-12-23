@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 def finger(image_name):
-    im = cv.imread(f'fingerprint/{image_name}' , cv.IMREAD_COLOR)
+    im = cv.imread(image_name , cv.IMREAD_COLOR)
     image = cv.cvtColor(im , cv.COLOR_BGR2GRAY)
     #image_gray = cv.cvtColor(image , cv.COLOR_BGR2GRAY)
     tresh = cv.adaptiveThreshold(image , 255 , cv.ADAPTIVE_THRESH_GAUSSIAN_C , cv.THRESH_BINARY ,15 ,0.5)
