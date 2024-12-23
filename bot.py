@@ -1,4 +1,5 @@
 import telebot
+from fingerprint import finger
 
 
 with open("/mnt/imageproccess/p.txt" , 'r') as r:
@@ -13,7 +14,6 @@ def start(message) :
 def handle_photo(message):
     try:
         # گرفتن فایل ID از عکس
-        bot.reply_to(message ,f"{message.photo}")
         file_id = message.photo[-1].file_id  # بزرگترین سایز عکس
         file_info = bot.get_file(file_id)
         downloaded_file = bot.download_file(file_info.file_path)
@@ -24,9 +24,10 @@ def handle_photo(message):
             new_file.write(downloaded_file)
 
         bot.reply_to(message, "عکس شما دریافت و ذخیره شد.")
-        print(f"Photo saved as {file_name}")
-
+        finger(file_name)
         # اینجا می‌تونید تصویر ذخیره‌شده رو پردازش کنید
+        with open(f"res-{file_name}", 'rb') as result:
+            bot.send_photo(message.chat.id , result)
 
     except Exception as e:
         bot.reply_to(message, f"مشکلی پیش آمد: {e}")
