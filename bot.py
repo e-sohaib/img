@@ -30,6 +30,7 @@ def handle_photo(message):
         with open(f"res-{file_name}", 'rb') as result:
             bot.send_photo(message.chat.id , result)
         os.remove(f"res-{file_name}")
+        os.remove(file_name)
     except Exception as e:
         bot.reply_to(message, f"مشکلی پیش آمد: {e}")
         print(f"Error: {e}")
